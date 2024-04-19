@@ -1,0 +1,82 @@
+<van-tabs active="{{ active }}" bind:change="onChange" color="{{ icon_color }}" animated tab-class="tab_class" sticky>
+  <van-tab title="未审核">
+    <view class="box">
+      <view wx:for="{{unreviewed_dataList}}" wx:key="index" wx:for-item="record" class="info">
+        <view>
+          <van-icon name="notes-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>参观日期：</text>{{record.date}}
+        </view>
+        <view>
+          <van-icon name="underway-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>参观时间：</text>{{record.time}}
+        </view>
+        <view>
+          <van-icon name="contact" size="{{icon_size}}" color="{{ icon_color }}" /><text>预约人：</text>{{record.appointee_name}}
+        </view>
+        <view>
+          <van-icon name="hotel-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>联系方式：</text>{{record.phone}}
+        </view>
+        <view>
+          <van-icon name="phone-circle-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>来访人信息：</text>{{record.visitor_info}}
+        </view>
+        <view>
+          <van-icon name="friends-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>预约人数：</text>{{record.visitor_number}}
+        </view>
+        <van-divider customStyle="color: #1989fa; border-color: #1989fa;" dashed />
+        <view class="status">
+          <view><text>预约时间：</text>{{record.create_time}}</view>
+          <view><text>审核状态：</text><text style="padding: 0;margin: 0; color: black;" wx:if="{{record.has_reviewed}}">已审核</text><text style="padding: 0;margin: 0; color: red;" wx:else>待审核</text>
+          </view>
+        </view>
+        <view class="btn_wrapper">
+          <button class="btn" bindtap="handleReview" data-status="{{2}}" data-record="{{record}}">拒绝</button>
+          <button class="btn" bindtap="handleReview" data-status="{{1}}" data-record="{{record}}">确认</button>
+        </view>
+      </view>
+    </view>
+    <van-dialog  use-slot id="van-dialog">
+    <van-field placeholder="请输入拒绝理由" border="{{ false }}" bind:blur="onReasonChange" />
+</van-dialog>
+
+  </van-tab>
+  <van-tab title="已审核">
+    <view class="box">
+      <van-cell-group>
+        <van-field value="{{ customer_name }}" center clearable label="来访人姓名" placeholder="请输入" border="{{ false }}" bind:blur="onQueryChange" use-button-slot>
+          <van-button slot="button" size="small" type="primary" bindtap="onSearch">
+            搜索
+          </van-button>
+        </van-field>
+      </van-cell-group>
+
+      <view wx:for="{{reviewed_dataList}}" wx:key="index" wx:for-item="record" class="info">
+        <view>
+          <van-icon name="notes-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>参观日期：</text>{{record.date}}
+        </view>
+        <view>
+          <van-icon name="underway-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>参观时间：</text>{{record.time}}
+        </view>
+        <view>
+          <van-icon name="contact" size="{{icon_size}}" color="{{ icon_color }}" /><text>预约人：</text>{{record.appointee_name}}
+        </view>
+        <view>
+          <van-icon name="hotel-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>联系方式：</text>{{record.phone}}
+        </view>
+        <view>
+          <van-icon name="phone-circle-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>来访人信息：</text>{{record.visitor_info}}
+        </view>
+        <view>
+          <van-icon name="friends-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>预约人数：</text>{{record.visitor_number}}
+        </view>
+        <view>
+          <van-icon name="question-o" size="{{icon_size}}" color="{{ icon_color }}" /><text>原因：</text>{{record.comment}}
+        </view>
+        <van-divider customStyle="color: #1989fa; border-color: #1989fa;" dashed />
+        <view class="status">
+          <view><text>预约时间：</text>{{record.create_time}}</view>
+          <view><text>审核状态：</text><text style="padding: 0;margin: 0; color: green;" wx:if="{{record.status === 1}}">已通过</text><text style="padding: 0;margin: 0; color: red;" wx:else>已拒绝</text>
+          </view>
+        </view>
+
+      </view>
+    </view>
+  </van-tab>
+</van-tabs>

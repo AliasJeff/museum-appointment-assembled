@@ -1,0 +1,1 @@
+"D:\微信web开发者工具\cli.bat" cloud functions deploy --e reserve-3g5x1ntea32307d8 --n quickstartFunctions --r --project "C:\Users\03\Desktop\wx" --report_first && "D:\微信web开发者工具\cli.bat" cloud functions deploy --e cloud1-2gcbrmz41be988d6 --n quickstartFunctions --r --project "C:\Users\03\Desktop\wx" --report

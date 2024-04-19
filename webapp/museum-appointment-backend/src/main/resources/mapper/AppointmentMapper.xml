@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alias.mapper.AppointmentMapper">
+    <resultMap id="BaseResultMap" type="com.alias.model.entity.Appointment">
+        <id property="id" column="id" jdbcType="INTEGER" />
+        <result property="userId" jdbcType="BIGINT" column="user_id" />
+        <result property="appointeeName" column="appointee_name" jdbcType="VARCHAR" />
+        <result property="visitorNumber" column="visitor_number" jdbcType="VARCHAR" />
+        <result property="visitorInfo" column="visitor_info" jdbcType="VARCHAR" />
+        <result property="phone" column="phone" jdbcType="VARCHAR" />
+        <result property="date" column="date" jdbcType="VARCHAR" />
+        <result property="time" column="time" jdbcType="VARCHAR" />
+        <result property="status" column="status" jdbcType="INTEGER" />
+        <result property="comment" column="comment" jdbcType="VARCHAR" />
+        <result property="createTime" column="create_time" jdbcType="VARCHAR" />
+        <result property="updateTime" column="update_time" jdbcType="VARCHAR" />
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,appointeeName,visitorNumber,
+        visitorInfo,phone,date,
+        time,status,comment,
+        createTime,updateTime,isDelete
+    </sql>
+</mapper>

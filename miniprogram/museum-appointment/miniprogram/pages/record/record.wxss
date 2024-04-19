@@ -1,0 +1,96 @@
+/* pages/record/record.wxss */
+
+.bar .van-icon-arrow-left{
+  font-size: 40rpx !important;
+  color: black !important;
+}
+.bar .van-nav-bar__text{
+  font-size: 30rpx !important;
+  color: black !important;
+}
+.bar{
+  width: 100vw !important;
+  height: 8vh !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+.bar_font{
+  width: 100vw !important;
+  height: 8vh !important;
+  font-size: 48rpx !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+page{
+  margin: 0;
+  padding: 0;
+  background-color: #decdaf;
+  display: flex;
+  align-items: center;
+}
+
+.box{
+  width: 680rpx;
+  height: 450rpx;
+  border-radius: 20rpx;
+  border-top-right-radius: 100rpx;
+  position: relative;
+  color: white;
+  margin-bottom: 35rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .7);
+}
+.box image{
+  width: 100%;
+  height: 100%;
+  
+}
+.divider{
+  margin: 0 !important;
+  margin-bottom: 20rpx !important;
+}
+.box text{
+  margin-left: 10rpx;
+}
+.box text .content{
+  margin: 0;
+  color: #b0b0bc;
+}
+.box .btn_group{
+  clear: both;
+}
+.box .btn{
+  margin: 0;
+  padding: 0;
+  width: 150rpx;
+  padding: 5rpx;
+  font-size: 25rpx;
+  border-radius:15rpx;
+  background-color:#cdcbbc;
+  color: #4b473b;
+  float: right;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); */
+}
+.marginBottom{
+  margin-bottom: 20rpx;
+}
+#tit{
+  font-size: 35rpx;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding:15rpx;
+}
+
+.shadow{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, .6);
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  padding: 40rpx;
+}

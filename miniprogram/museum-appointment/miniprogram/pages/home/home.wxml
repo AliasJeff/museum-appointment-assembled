@@ -1,0 +1,121 @@
+<!--pages/home/home.wxml-->
+<van-nav-bar title="参观预约" custom-class="bar" title-class="bar_font" />
+<van-notice-bar left-icon="volume-o" text="{{ banner }}" custom-class="notice" scrollable />
+<scroll-view scroll-y="true" style="width: 100vw;height: 80vh;box-sizing: border-box;padding:20rpx 0 ;">
+  <van-cell-group inset custom-class="van-group_margin">
+    <image src="/images/home_image.jpg" class="van-image">
+      <view id="shadow">
+        <view id="tit" style="text-align: center;">
+          <text style="margin:25rpx;font-size: 35rpx;">欢迎光临</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">全国高校党建工作标杆院系创建培育单位</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">浙江省“一带一路与浙非合作”党员教育培训基地</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">浙江省习近平对非外交思想现场教学点</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">浙江省科普基地</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">非洲研究院政治学、非洲学研究生党支部红色教育基地</text>
+        </view>
+        <view class="time" style="text-align: center;">
+          <text style="font-size: 18rpx;">浙江师范大学非洲博物馆、中非交流博物馆</text>
+        </view>
+      </view>
+    </image>
+  </van-cell-group>
+
+  <van-cell-group inset custom-class="van-group_margin">
+    <van-cell label="" title="预约人" border="{{ false }}" size="large" label="示例：校办 ×××" required="true" custom-class="cellroot" title-class="font-weight" label-class="label-weight">
+
+    </van-cell>
+    <van-field model:value="{{  }}" placeholder="单位和姓名" border="{{ true }}" size="large" bind:blur="onAppointeeNameChange" />
+    <van-field model:value="{{  }}" placeholder="联系方式" border="{{ true }}" size="large" type="number" bind:blur="onPhoneChange" />
+    <van-cell label="" title="来访人" border="{{ false }}" size="large" label="示例：×××大学校长一行" required="true" custom-class="cellroot" title-class="font-weight" label-class="label-weight" />
+    <van-field model:value="{{  }}" placeholder="来访人信息" border="{{ true }}" size="large" bind:blur="onVisitorInfoChange" />
+
+    <van-cell title="预约人数" size="large" value-class="visitor_num" border="{{ false }}" title-class="font-weight" label-class="label-weight" required="true">
+      <van-field border="{{ true }}" class="visitor_input" type="number" bind:blur="onVisitorNumberChange" placeholder="不得多于20" />
+    </van-cell>
+    <van-cell title="参观日期" value="{{ visitDate }}" bind:click="onCalendarChange" size="large" title-class="font-weight" required="true" border="{{ false }}" />
+    <van-calendar show="{{ showCalendar }}" bind:close="onCalendarChange" bind:confirm="onVisitDateChange" color="#b88b50" min-date="{{ minDate }}" max-date="{{ maxDate }}" class="calendar" row-height="60" />
+
+
+
+
+    <van-cell title="参观时间" bind:click="" size="large" value-class="visitor_time" title-class="font-weight" label-class="label-weight" required="true" border="{{ false }}">
+      <view class="showtime">
+        <van-cell wx:for="{{selectedTime}}" custom-class="show-box" value-class="show-value" border="{{ false }}">
+          <text>{{item}}</text>
+          <van-button size="mini" bind:click="cancelTime" data-item="{{item}}" custom-class="btn_size">×</van-button>
+        </van-cell>
+      </view>
+      <picker id="time" range="{{timeOptions}}" class="algin_center" bindchange="selectTime">+</picker>
+    </van-cell>
+    <van-cell required="true" size="small" value-class="checkbox-wrapper">
+      <div class="title-wrapper">
+        <div>我已阅读并同意</div>
+        <div><a bindtap="handleUserPolicyChange" class="text-btn">《用户协议》</a>、<a bindtap="handlePrivacyPolicyChange" class="text-btn">《隐私政策》</a></div>
+      </div>
+      <div>
+        <van-checkbox value="{{ checked }}" shape="square" bind:change="onCheckboxChange" />
+      </div>
+    </van-cell>
+  </van-cell-group>
+  <van-notice-bar left-icon="info-o" wrapable scrollable="{{ false }}" text="我们承诺严格保护您的隐私，您提供的联系方式仅用于参观预约使用，不会被泄露给第三方。" style="--notice-bar-font-size: 26rpx;" />
+</scroll-view>
+
+<view id="bottom">
+  <button class="btn algin_center" bindtap="showNotice">预约须知
+    <icon type="info" color="#b3a78f" size="30rpx" style="margin-left: 10rpx;" />
+  </button>
+  <button class="btn algin_center" bindtap="onSubmit">立即预约</button>
+  <button class="btn algin_center" bindtap="toRecord">预约记录</button>
+</view>
+<root-portal wx:if="{{ showNotice }}">
+  <view class="dialog algin_center">
+    <scroll-view id="box" scroll-y="true">
+
+      <view id="top">非洲博物馆参观须知</view>
+      <block wx:for="{{notice}}">
+        <view style="text-align: left;line-height: 2rem;">{{item}}</view>
+      </block>
+      <button bindtap="closeNotice" style="margin-top: 40rpx;">
+        我已阅读
+      </button>
+    </scroll-view>
+  </view>
+</root-portal>
+
+<root-portal wx:if="{{ showUserPolicy }}">
+  <view class="dialog algin_center">
+    <scroll-view id="box" scroll-y="true">
+      <view id="top">用户协议</view>
+      <block wx:for="{{userPolicy}}">
+        <view style="text-align: left;line-height: 2rem;">{{item}}</view>
+      </block>
+      <button bindtap="handleUserPolicyChange" style="margin-top: 40rpx;">
+        我已阅读
+      </button>
+    </scroll-view>
+  </view>
+</root-portal>
+
+<root-portal wx:if="{{ showPrivacyPolicy }}">
+  <view class="dialog algin_center">
+    <scroll-view id="box" scroll-y="true">
+      <view id="top">隐私协议</view>
+      <block wx:for="{{privacyPolicy}}">
+        <view style="text-align: left;line-height: 2rem;">{{item}}</view>
+      </block>
+      <button bindtap="handlePrivacyPolicyChange" style="margin-top: 40rpx;">
+        我已阅读
+      </button>
+    </scroll-view>
+  </view>
+</root-portal>
