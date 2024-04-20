@@ -1,8 +1,6 @@
 package com.alias.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +15,8 @@ public class Appointment implements Serializable {
     /**
      * id
      */
-    private Integer id;
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
     /**
      * 用户id

@@ -5,14 +5,19 @@ import com.alias.model.entity.Appointment;
 import com.alias.service.AppointmentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
 @Slf4j
 public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appointment> implements AppointmentService {
+
+    @Resource
+    private AppointmentMapper appointmentMapper;
 
     @Override
     public List<Appointment> getAppointmentListByPhone(String phone) {
