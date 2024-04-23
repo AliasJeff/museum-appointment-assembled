@@ -1,0 +1,89 @@
+
+.status {
+    margin-top: 10px;
+}
+.btn_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+::v-deep .van-dialog {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    height: auto;
+}
+.search{
+    display: flex;
+}
+.search_input{
+    width: 85%;
+}
+.search_button{
+    width: 20%;
+}
+page{
+    background-color: white;
+    font-size: 35px;
+}
+.box{
+    width: 100%;
+    margin: 40px 0;
+    padding: 0;
+}
+.tab_class{
+    font-size: 28px !important;
+}
+.info{
+    width: 670px;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 30px 40px;
+    /* border: 1px solid seagreen; */
+    margin: 0 auto;
+    margin-bottom: 30px;
+    background-color: #e9f8ff;
+    box-sizing: border-box;
+    border: 1px solid #e9f8ff;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
+
+}
+.info view{
+    margin-bottom: 10px;
+}
+.info .btn{
+    border: 1px solid #1989fa;
+    background-color: #1989fa;
+    font-size: 35px;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
+}
+.info view>text{
+    margin-left: 10px;
+    color: #b0b0bc;
+}
+.info .status{
+    text-align: right;
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+.info .btn_wrapper {
+    display: flex;
+    column-gap: 20px;
+}
+.info .btn_wrapper .btn {
+    width: 100%;
+}
+.text_style{
+    padding: 0;
+    margin: 0;
+    color: black;
+}

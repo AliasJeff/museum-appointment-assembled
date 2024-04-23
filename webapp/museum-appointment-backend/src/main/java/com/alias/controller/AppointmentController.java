@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * 预约接口
+ *
+ * @author Jeffery
  */
 @RestController
 @RequestMapping("/appointment")
@@ -54,14 +56,17 @@ public class AppointmentController {
         return ResultUtils.success(newId);
     }
 
+
     @GetMapping("/get")
-    public BaseResponse<List<Appointment>> getUserAppointmentList(@RequestBody AppointmentQueryRequest appointmentQueryRequest, HttpServletRequest request) {
-        if (appointmentQueryRequest == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        List<Appointment> appointmentList = appointmentService.getAppointmentListByPhone(appointmentQueryRequest.getPhone());
+    public BaseResponse<List<Appointment>> getUserAppointmentList(@RequestParam(required = false) String phone, @RequestParam(required = false) Integer status, @RequestParam(required = false) String appointeeName,HttpServletRequest request) {
+        AppointmentQueryRequest appointmentQueryRequest = new AppointmentQueryRequest();
+        appointmentQueryRequest.setStatus(status);
+        appointmentQueryRequest.setPhone(phone);
+        appointmentQueryRequest.setAppointeeName(appointeeName);
+        List<Appointment> appointmentList = appointmentService.getAppointmentList(appointmentQueryRequest);
         return ResultUtils.success(appointmentList);
     }
+
 
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteAppointmentById(@RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
@@ -70,6 +75,17 @@ public class AppointmentController {
         }
         Integer id = Integer.valueOf(appointmentUpdateRequest.getId());
         boolean res = appointmentService.deleteAppointment(id);
+        return ResultUtils.success(res);
+    }
+
+
+    @PostMapping("/update")
+    public BaseResponse<Boolean> updateAppointmentById(@RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
+        log.info("updateAppointmentById: {}", appointmentUpdateRequest);
+        if (appointmentUpdateRequest == null || appointmentUpdateRequest.getId() == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        boolean res = appointmentService.updateAppointment(appointmentUpdateRequest);
         return ResultUtils.success(res);
     }
 }

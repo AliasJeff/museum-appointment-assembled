@@ -51,6 +51,11 @@ public class AppointmentUpdateRequest implements Serializable {
     private String time;
 
     /**
+     * 备注
+     */
+    private String comment;
+
+    /**
      * 预约状态 0-pending 1-confirmed 2-rejected
      */
     private Integer status;

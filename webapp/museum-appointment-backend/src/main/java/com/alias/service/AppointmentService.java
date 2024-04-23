@@ -1,5 +1,7 @@
 package com.alias.service;
 
+import com.alias.model.dto.appointment.AppointmentQueryRequest;
+import com.alias.model.dto.appointment.AppointmentUpdateRequest;
 import com.alias.model.entity.Appointment;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -10,6 +12,7 @@ import java.util.List;
 
 /**
  * 预约服务
+ * @author Jeffery
  */
 public interface AppointmentService extends IService<Appointment> {
 
@@ -18,7 +21,7 @@ public interface AppointmentService extends IService<Appointment> {
      *
      * @return 用户预约列表
      */
-    List<Appointment> getAppointmentListByPhone(String phone);
+    List<Appointment> getAppointmentList(AppointmentQueryRequest appointmentQueryRequest);
 
     /**
      * 新增预约
@@ -67,5 +70,7 @@ public interface AppointmentService extends IService<Appointment> {
      * @param id 预约 id
      */
     boolean rejectAppointment(Integer id);
+
+    boolean updateAppointment(AppointmentUpdateRequest appointmentUpdateRequest);
 
 }
