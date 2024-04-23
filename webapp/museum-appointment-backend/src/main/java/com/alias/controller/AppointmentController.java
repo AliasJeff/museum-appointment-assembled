@@ -67,6 +67,12 @@ public class AppointmentController {
         return ResultUtils.success(appointmentList);
     }
 
+    @GetMapping("/get/available")
+    public BaseResponse<List<String>> getAvailableTimeList(HttpServletRequest request) {
+        List<String> timeList = appointmentService.getAvailableTimeList();
+        return ResultUtils.success(timeList);
+    }
+
 
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteAppointmentById(@RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {

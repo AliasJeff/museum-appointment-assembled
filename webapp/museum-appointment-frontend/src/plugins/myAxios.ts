@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from "axios";
+import {Notify, Toast} from "vant";
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -20,11 +21,18 @@ myAxios.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 myAxios.interceptors.response.use(function (response) {
-    console.log('received response: ', response)
     // 未登录则跳转到登录页
-    if (response?.data?.code === 40100) {
-        const redirectUrl = window.location.href;
-        window.location.href = `/user/login?redirect=${redirectUrl}`;
+    // if (response?.data?.code === 40100) {
+    //     const redirectUrl = window.location.href;
+    //     window.location.href = `/user/login?redirect=${redirectUrl}`;
+    // }
+    console.log('response: ', response)
+    if (response?.data?.code !== 0) {
+        Notify({
+            message: response?.data?.message,
+            duration: 1500,
+            background: '#e25749'
+        });
     }
     // Do something with response data
     return response.data;

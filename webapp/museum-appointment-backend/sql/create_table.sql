@@ -33,7 +33,7 @@ CREATE TABLE if not exists appointment (
       phone VARCHAR(255) NOT NULL comment '手机号',
       date DATE NOT NULL comment '预约日期',
       time varchar(255) not null comment '预约时间段',
-      status INT NOT NULL comment '预约状态 0-pending 1-confirmed 2-rejected',
+      status INT NOT NULL default 0 comment '预约状态 0-pending 1-confirmed 2-rejected',
       comment VARCHAR(255) null default null comment '备注',
       createTime DATETIME default CURRENT_TIMESTAMP NOT NULL comment '创建时间',
       updateTime DATETIME default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',

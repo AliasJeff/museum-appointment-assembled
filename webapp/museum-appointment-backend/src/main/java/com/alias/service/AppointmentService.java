@@ -24,6 +24,13 @@ public interface AppointmentService extends IService<Appointment> {
     List<Appointment> getAppointmentList(AppointmentQueryRequest appointmentQueryRequest);
 
     /**
+     * 获取可预约时间
+     *
+     * @return
+     */
+    List<String> getAvailableTimeList();
+
+    /**
      * 新增预约
      *
      * @param appointeeName 预约人姓名

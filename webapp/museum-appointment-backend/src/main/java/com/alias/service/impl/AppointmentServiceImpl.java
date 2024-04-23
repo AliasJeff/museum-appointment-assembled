@@ -5,6 +5,7 @@ import com.alias.model.dto.appointment.AppointmentQueryRequest;
 import com.alias.model.dto.appointment.AppointmentUpdateRequest;
 import com.alias.model.entity.Appointment;
 import com.alias.service.AppointmentService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -12,10 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
+import static com.alias.model.enums.AppointmentEnum.PENDING;
 
 /**
  * 预约服务实现类
@@ -25,6 +25,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appointment> implements AppointmentService {
+
+    private static final List<String> TIME_LIST = Arrays.asList("08:00-09:50", "10:20-12:00", "14:00-15:20", "15:40-17:00");
 
     @Resource
     private AppointmentMapper appointmentMapper;
@@ -47,6 +49,19 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
         Optional.ofNullable(time).ifPresent(value -> columnMap.put("time", value));
         Optional.ofNullable(status).ifPresent(value -> columnMap.put("status", value));
         return this.listByMap(columnMap);
+    }
+
+    @Override
+    public List<String> getAvailableTimeList() {
+        QueryWrapper<Appointment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("time").groupBy("time");
+        queryWrapper.eq("status", PENDING);
+
+        List<Appointment> appointments = appointmentMapper.selectList(queryWrapper);
+        appointments.forEach(System.out::println);
+        List<String> timeList = new ArrayList<>(TIME_LIST);
+        appointments.forEach(appointment -> timeList.remove(appointment.getTime()));
+        return timeList;
     }
 
     @Override
@@ -75,7 +90,7 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
     }
 
     @Override
-    public  boolean updateAppointment(AppointmentUpdateRequest appointmentUpdateRequest){
+    public boolean updateAppointment(AppointmentUpdateRequest appointmentUpdateRequest) {
         String id = appointmentUpdateRequest.getId();
         String userId = appointmentUpdateRequest.getUserId();
         String appointeeName = appointmentUpdateRequest.getAppointeeName();

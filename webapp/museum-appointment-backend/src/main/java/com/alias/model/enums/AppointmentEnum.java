@@ -2,6 +2,8 @@ package com.alias.model.enums;
 
 /**
  * 预约状态枚举
+ *
+ * @author Jeffery
  */
 public enum AppointmentEnum {
 

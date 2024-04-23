@@ -31,9 +31,7 @@ page {
 }
 
 .notice {
-    width: 100vw !important;
-    height: 5vh !important;
-    font-size: 28px !important;
+    margin-bottom: 10px;
 }
 
 .bar {
@@ -54,11 +52,8 @@ page {
 
 .van-group_margin {
     box-shadow: 0 2px 5px rgba(0, 0, 0, .3) !important;
+    margin-bottom: 10px !important;
     /* z-index: 10 !important; */
-}
-
-.van-group_margin:first-child {
-    margin-bottom: 30px !important;
 }
 
 .van-image {
@@ -131,10 +126,6 @@ page {
     align-content: space-between;
 }
 
-.title-wrapper {
-    font-size: 28px !important;
-}
-
 .text-btn {
     text-decoration: underline;
 }
@@ -147,15 +138,23 @@ page {
     /* 水平居中 */
 }
 
-#bottom {
-    /* position: absolute; */
-    /* left: 0; */
-    /* bottom: 0; */
+/*#bottom {*/
+/*    !* position: absolute; *!*/
+/*    !* left: 0; *!*/
+/*    !* bottom: 0; *!*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    width: 100vw;*/
+/*    height: 7.5vh;*/
+/*    !* z-index: 0; *!*/
+/*}*/
+.footer {
     display: flex;
     flex-direction: row;
     width: 100vw;
-    height: 7.5vh;
-    /* z-index: 0; */
+    background-color: #b48a50;
+    position: fixed;
+    bottom: 0;
 }
 
 button {
@@ -169,7 +168,7 @@ button {
     /* border-right: 1px solid cadetblue; */
     height: 100%;
     border-radius: 0;
-    font-size: 30px;
+    font-size: 18px;
     font-weight: 500;
     flex: 1;
     color: #fff5e9;
@@ -190,39 +189,7 @@ button {
 }
 
 .dialog {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    flex-direction: column;
-    z-index: 10000;
-}
-
-.dialog #box {
-    width: 80vw;
-    height: 70vh;
-    background-color: seashell;
-    border-radius: 20px;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 55px;
-}
-
-.dialog #top {
-    margin-bottom: 25px;
-    font-size: 45px;
-}
-
-.dialog #content {
-    font-size: 35px;
-    margin-bottom: 35px;
-}
-
-.dialog #box button {
-    color: white;
-    background-color: #b48a50;
+    padding: 14px
 }
 
 #time {
