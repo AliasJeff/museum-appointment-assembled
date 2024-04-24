@@ -65,6 +65,13 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
     }
 
     @Override
+    public List<Appointment> getAppointmentListByNameOrPhone(String nameOrPhone) {
+        QueryWrapper<Appointment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("appointeeName", nameOrPhone).or().like("phone", nameOrPhone);
+        return this.list(queryWrapper);
+    }
+
+    @Override
     public int addAppointment(HttpServletRequest request, String appointeeName, String visitorNumber, String visitorInfo, String phone, String date, String time) {
         return 0;
     }

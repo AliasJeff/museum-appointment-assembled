@@ -73,6 +73,15 @@ public class AppointmentController {
         return ResultUtils.success(timeList);
     }
 
+    @GetMapping("/get/records")
+    public BaseResponse<List<Appointment>> getAppointmentRecords(String param) {
+        if (StringUtils.isBlank(param)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<Appointment> appointmentList = appointmentService.getAppointmentListByNameOrPhone(param);
+        return ResultUtils.success(appointmentList);
+    }
+
 
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteAppointmentById(@RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {

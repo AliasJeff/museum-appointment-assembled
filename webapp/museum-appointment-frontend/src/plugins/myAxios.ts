@@ -11,7 +11,7 @@ myAxios.defaults.withCredentials = true;
 
 // Add a request interceptor
 myAxios.interceptors.request.use(function (config) {
-    console.log('send request: ', config)
+    // console.log('send request: ', config)
     // Do something before request is sent
     return config;
 }, function (error) {
@@ -26,13 +26,13 @@ myAxios.interceptors.response.use(function (response) {
     //     const redirectUrl = window.location.href;
     //     window.location.href = `/user/login?redirect=${redirectUrl}`;
     // }
-    console.log('response: ', response)
     if (response?.data?.code !== 0) {
         Notify({
             message: response?.data?.message,
             duration: 1500,
             background: '#e25749'
         });
+        throw new Error(response?.data?.message)
     }
     // Do something with response data
     return response.data;

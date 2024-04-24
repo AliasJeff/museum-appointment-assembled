@@ -127,22 +127,26 @@
           />
         </van-cell>
 
-        <van-cell required size="small" value-class="checkbox-wrapper">
-          <div>
-            <div>我已阅读并同意</div>
+        <van-cell required size="small">
+          <div class="policy-cell">
             <div>
-              <a @click="togglePolicy('user')" class="text-btn">《用户协议》</a
-              >、
-              <a @click="togglePolicy('privacy')" class="text-btn"
-                >《隐私政策》</a
-              >
+              <div>我已阅读并同意</div>
+              <div>
+                <a @click="togglePolicy('user')" class="text-btn"
+                  >《用户协议》</a
+                >、
+                <a @click="togglePolicy('privacy')" class="text-btn"
+                  >《隐私政策》</a
+                >
+              </div>
             </div>
+            <van-checkbox
+              v-model="checked"
+              shape="square"
+              @change="onCheckboxChange"
+              style="margin-right: 20px !important"
+            />
           </div>
-          <van-checkbox
-            v-model="checked"
-            shape="square"
-            @change="onCheckboxChange"
-          />
         </van-cell>
       </van-cell-group>
     </div>
@@ -304,7 +308,7 @@ export default {
     };
   },
   created() {
-    this.router = useRouter(); // Assuming useRouter needs to be called within a lifecycle method in this case
+    this.router = useRouter();
     this.refreshAvailableTime();
   },
   methods: {
@@ -326,7 +330,6 @@ export default {
       this.showCalendar = false;
     },
     formatter(type, value) {
-      // 格式化选择器日期
       if (type === "year") {
         return `${value}年`;
       } else if (type === "month") {
@@ -433,5 +436,107 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+page {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ddccae;
+  position: relative;
+}
+
+.image {
+  background: url("../../assets/home_image.jpg");
+  background-size: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  color: white;
+}
+
+.shadow {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 10px 0 10px 0;
+}
+
+.calendar van-popup > view {
+  --calendar-height: 800px !important;
+}
+
+.notice {
+  margin-bottom: 10px;
+}
+
+.van-group_margin {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+  margin-bottom: 10px !important;
+}
+
+#shadow view {
+  font-weight: 300;
+}
+
+#shadow view:first-child {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.cellroot {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.policy-cell {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-btn {
+  text-decoration: underline;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  background-color: #b48a50;
+  position: fixed;
+  bottom: 0;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  padding: 0;
+  height: 40px;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: 500;
+  flex: 1;
+  color: #fff5e9;
+  background-color: #b48a50;
+  border: none;
+}
+
+.btn:first-child {
+  color: #928f8a;
+  background-color: #fff5e9;
+}
+
+.btn:last-child {
+  background-color: #cac1b0;
+  color: snow;
+}
+
+.dialog {
+  padding: 14px;
 }
 </style>

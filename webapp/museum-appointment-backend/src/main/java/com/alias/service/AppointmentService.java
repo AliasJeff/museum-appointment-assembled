@@ -3,8 +3,6 @@ package com.alias.service;
 import com.alias.model.dto.appointment.AppointmentQueryRequest;
 import com.alias.model.dto.appointment.AppointmentUpdateRequest;
 import com.alias.model.entity.Appointment;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +17,7 @@ public interface AppointmentService extends IService<Appointment> {
     /**
      * 获取用户预约列表
      *
+     * @param appointmentQueryRequest 预约查询请求
      * @return 用户预约列表
      */
     List<Appointment> getAppointmentList(AppointmentQueryRequest appointmentQueryRequest);
@@ -29,6 +28,13 @@ public interface AppointmentService extends IService<Appointment> {
      * @return
      */
     List<String> getAvailableTimeList();
+
+    /**
+     * 获取预约详情
+     * @param nameOrPhone
+     * @return
+     */
+    List<Appointment> getAppointmentListByNameOrPhone(String nameOrPhone);
 
     /**
      * 新增预约
