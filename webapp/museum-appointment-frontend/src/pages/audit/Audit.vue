@@ -1,6 +1,26 @@
 <template>
-  <div>
+  <van-pull-refresh v-model="isLoading" @refresh="getData">
+    <div v-if="!isSuper">
+      <van-form @submit="onSubmit">
+        <van-cell-group inset>
+          <van-field
+            v-model="password"
+            type="password"
+            name="password"
+            label="密码"
+            placeholder="请输入管理员密码"
+            :rules="[{ required: true, message: '请填写管理员密码' }]"
+          />
+        </van-cell-group>
+        <div style="margin: 16px">
+          <van-button round block type="primary" native-type="submit">
+            提交
+          </van-button>
+        </div>
+      </van-form>
+    </div>
     <van-tabs
+      v-else
       v-model="active"
       @change="onChange"
       :color="icon_color"
@@ -53,7 +73,7 @@
     >
       <van-field v-model="reason" placeholder="请输入拒绝理由" border />
     </van-dialog>
-  </div>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -67,6 +87,9 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+      isSuper: false,
+      password: null,
       showDialog: false,
       refuse_record: [],
       active: 0,
@@ -84,6 +107,21 @@ export default {
     this.getData();
   },
   methods: {
+    async onSubmit() {
+      try {
+        const res = await myAxios.post(
+          `/appointment/auth?password=${this.password}`
+        );
+        if (res?.code === 0) {
+          this.isSuper = true;
+          Toast.success("认证成功");
+        } else {
+          Toast.fail("认证失败");
+        }
+      } catch (error) {
+        Toast.fail(`认证失败: ${error}`);
+      }
+    },
     async getData() {
       try {
         const response = await myAxios.get("/appointment/get");
@@ -96,6 +134,8 @@ export default {
           .filter((data) => data.status !== 0);
       } catch (error) {
         Toast.fail(`获取数据失败: ${error}`);
+      } finally {
+        this.isLoading = false;
       }
     },
     onChange(index) {

@@ -20,6 +20,7 @@
         v-for="record in records"
         :key="record.id"
         :record="record"
+        :className="className"
       />
     </van-list>
     <van-empty v-else description="暂无数据" />
@@ -38,6 +39,7 @@ export default {
     return {
       param: null,
       records: [],
+      className: "recordCard",
     };
   },
   methods: {

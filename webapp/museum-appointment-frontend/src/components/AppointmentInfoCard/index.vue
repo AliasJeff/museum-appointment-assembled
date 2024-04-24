@@ -1,55 +1,116 @@
 <template>
-  <div class="info box">
-    <div class="data">
-      <van-icon name="notes-o" :size="icon_size" :color="icon_color" />
-      <span>参观日期：</span>{{ record.date }}
-    </div>
-    <div class="data">
-      <van-icon name="underway-o" :size="icon_size" :color="icon_color" />
-      <span>参观时间：</span>{{ record.time }}
-    </div>
-    <div class="data">
-      <van-icon name="contact" :size="icon_size" :color="icon_color" />
-      <span>预约人：</span>{{ record.appointeeName }}
-    </div>
-    <div class="data">
-      <van-icon name="hotel-o" :size="icon_size" :color="icon_color" />
-      <span>联系方式：</span>{{ record.phone }}
-    </div>
-    <div class="data">
-      <van-icon name="phone-circle-o" :size="icon_size" :color="icon_color" />
-      <span>来访人信息：</span>{{ record.visitorInfo }}
-    </div>
-    <div class="data">
-      <van-icon name="friends-o" :size="icon_size" :color="icon_color" />
-      <span>预约人数：</span>{{ record.visitorNumber }}
-    </div>
-    <div class="data">
-      <van-icon name="edit" :size="icon_size" :color="icon_color" />
-      <span>备注：</span>{{ record.comment }}
-    </div>
-    <van-divider custom-style="color: #1989fa; border-color: #1989fa;" dashed />
-    <div class="status">
-      <div><span>预约时间：</span>{{ record.createTime }}</div>
-      <div>
-        <span>审核状态：</span>
-        <span
-          v-if="record.status === 1"
-          style="padding: 0; margin: 0; color: green"
-        >
-          已通过
-        </span>
-        <span
-          v-else-if="record.status === 0"
-          style="padding: 0; margin: 0; color: orange"
-          >待审核</span
-        >
-        <span v-else style="padding: 0; margin: 0; color: red">已拒绝</span>
+  <div class="info box" :class="className">
+    <div v-if="!!className" class="shadow">
+      <div class="data">
+        <van-icon name="notes-o" :size="icon_size" :color="icon_color" />
+        <span>参观日期：</span>{{ record.date }}
+      </div>
+      <div class="data">
+        <van-icon name="underway-o" :size="icon_size" :color="icon_color" />
+        <span>参观时间：</span>{{ record.time }}
+      </div>
+      <div class="data">
+        <van-icon name="contact" :size="icon_size" :color="icon_color" />
+        <span>预约人：</span>{{ record.appointeeName }}
+      </div>
+      <div class="data">
+        <van-icon name="hotel-o" :size="icon_size" :color="icon_color" />
+        <span>联系方式：</span>{{ record.phone }}
+      </div>
+      <div class="data">
+        <van-icon name="phone-circle-o" :size="icon_size" :color="icon_color" />
+        <span>来访人信息：</span>{{ record.visitorInfo }}
+      </div>
+      <div class="data">
+        <van-icon name="friends-o" :size="icon_size" :color="icon_color" />
+        <span>预约人数：</span>{{ record.visitorNumber }}
+      </div>
+      <div class="data">
+        <van-icon name="edit" :size="icon_size" :color="icon_color" />
+        <span>备注：</span>{{ record.comment }}
+      </div>
+      <van-divider
+        custom-style="color: #1989fa; border-color: #1989fa;"
+        dashed
+      />
+      <div class="status">
+        <div><span>预约时间：</span>{{ record.createTime }}</div>
+        <div>
+          <span>审核状态：</span>
+          <span
+            v-if="record.status === 1"
+            style="padding: 0; margin: 0; color: green"
+          >
+            已通过
+          </span>
+          <span
+            v-else-if="record.status === 0"
+            style="padding: 0; margin: 0; color: orange"
+            >待审核</span
+          >
+          <span v-else style="padding: 0; margin: 0; color: red">已拒绝</span>
+        </div>
+      </div>
+      <div v-if="edit" class="btn_wrapper">
+        <button class="auditBtn" @click="handleReview(2, record)">拒绝</button>
+        <button class="auditBtn" @click="handleReview(1, record)">确认</button>
       </div>
     </div>
-    <div v-if="edit" class="btn_wrapper">
-      <button class="auditBtn" @click="handleReview(2, record)">拒绝</button>
-      <button class="auditBtn" @click="handleReview(1, record)">确认</button>
+    <div v-else style="padding: 30px 40px">
+      <div class="data">
+        <van-icon name="notes-o" :size="icon_size" :color="icon_color" />
+        <span>参观日期：</span>{{ record.date }}
+      </div>
+      <div class="data">
+        <van-icon name="underway-o" :size="icon_size" :color="icon_color" />
+        <span>参观时间：</span>{{ record.time }}
+      </div>
+      <div class="data">
+        <van-icon name="contact" :size="icon_size" :color="icon_color" />
+        <span>预约人：</span>{{ record.appointeeName }}
+      </div>
+      <div class="data">
+        <van-icon name="hotel-o" :size="icon_size" :color="icon_color" />
+        <span>联系方式：</span>{{ record.phone }}
+      </div>
+      <div class="data">
+        <van-icon name="phone-circle-o" :size="icon_size" :color="icon_color" />
+        <span>来访人信息：</span>{{ record.visitorInfo }}
+      </div>
+      <div class="data">
+        <van-icon name="friends-o" :size="icon_size" :color="icon_color" />
+        <span>预约人数：</span>{{ record.visitorNumber }}
+      </div>
+      <div class="data">
+        <van-icon name="edit" :size="icon_size" :color="icon_color" />
+        <span>备注：</span>{{ record.comment }}
+      </div>
+      <van-divider
+        custom-style="color: #1989fa; border-color: #1989fa;"
+        dashed
+      />
+      <div class="status">
+        <div><span>预约时间：</span>{{ record.createTime }}</div>
+        <div>
+          <span>审核状态：</span>
+          <span
+            v-if="record.status === 1"
+            style="padding: 0; margin: 0; color: green"
+          >
+            已通过
+          </span>
+          <span
+            v-else-if="record.status === 0"
+            style="padding: 0; margin: 0; color: orange"
+            >待审核</span
+          >
+          <span v-else style="padding: 0; margin: 0; color: red">已拒绝</span>
+        </div>
+      </div>
+      <div v-if="edit" class="btn_wrapper">
+        <button class="auditBtn" @click="handleReview(2, record)">拒绝</button>
+        <button class="auditBtn" @click="handleReview(1, record)">确认</button>
+      </div>
     </div>
   </div>
 </template>
@@ -62,6 +123,7 @@ export default {
     icon_color: String,
     edit: Boolean,
     handleReview: Function,
+    className: String,
   },
   data: () => ({
     is_show: false,
@@ -125,7 +187,6 @@ page {
 .info {
   height: fit-content;
   box-sizing: border-box;
-  padding: 30px 40px;
   width: 80%;
   margin: 0 auto 30px;
   background-color: #e9f8ff;
@@ -169,9 +230,17 @@ page {
   font-size: 18px;
 }
 
-.text_style {
-  padding: 0;
-  margin: 0;
-  color: black;
+.recordCard {
+  background: url("../../assets/record_img.jpeg");
+  background-size: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  color: white;
+}
+
+.shadow {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 30px 40px;
 }
 </style>

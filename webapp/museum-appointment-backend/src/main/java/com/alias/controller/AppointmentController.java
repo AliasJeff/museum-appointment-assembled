@@ -19,6 +19,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.alias.constant.AppointmentConstant.PASSWORD;
+
 /**
  * 预约接口
  *
@@ -96,11 +98,23 @@ public class AppointmentController {
 
     @PostMapping("/update")
     public BaseResponse<Boolean> updateAppointmentById(@RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
-        log.info("updateAppointmentById: {}", appointmentUpdateRequest);
         if (appointmentUpdateRequest == null || appointmentUpdateRequest.getId() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         boolean res = appointmentService.updateAppointment(appointmentUpdateRequest);
         return ResultUtils.success(res);
+    }
+
+    @PostMapping("/auth")
+    public BaseResponse<Boolean> authCheck(@RequestParam("password") String password) {
+        if (StringUtils.isBlank(password)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        log.info(password);
+        log.info(PASSWORD);
+        if (!password.equals(PASSWORD)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        return ResultUtils.success(true);
     }
 }
