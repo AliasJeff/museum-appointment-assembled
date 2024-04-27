@@ -3,48 +3,48 @@
     <div v-if="!!className" class="shadow">
       <div class="data">
         <van-icon name="notes-o" :size="icon_size" :color="icon_color" />
-        <span>参观日期：</span>{{ record.date }}
+        <span>参观日期：</span>{{ displayRecord.date }}
       </div>
       <div class="data">
         <van-icon name="underway-o" :size="icon_size" :color="icon_color" />
-        <span>参观时间：</span>{{ record.time }}
+        <span>参观时间：</span>{{ displayRecord.time }}
       </div>
       <div class="data">
         <van-icon name="contact" :size="icon_size" :color="icon_color" />
-        <span>预约人：</span>{{ record.appointeeName }}
+        <span>预约人：</span>{{ displayRecord.appointeeName }}
       </div>
       <div class="data">
         <van-icon name="hotel-o" :size="icon_size" :color="icon_color" />
-        <span>联系方式：</span>{{ record.phone }}
+        <span>联系方式：</span>{{ displayRecord.phone }}
       </div>
       <div class="data">
         <van-icon name="phone-circle-o" :size="icon_size" :color="icon_color" />
-        <span>来访人信息：</span>{{ record.visitorInfo }}
+        <span>来访人信息：</span>{{ displayRecord.visitorInfo }}
       </div>
       <div class="data">
         <van-icon name="friends-o" :size="icon_size" :color="icon_color" />
-        <span>预约人数：</span>{{ record.visitorNumber }}
+        <span>预约人数：</span>{{ displayRecord.visitorNumber }}
       </div>
       <div class="data">
         <van-icon name="edit" :size="icon_size" :color="icon_color" />
-        <span>备注：</span>{{ record.comment }}
+        <span>反馈：</span>{{ displayRecord.comment }}
       </div>
       <van-divider
         custom-style="color: #1989fa; border-color: #1989fa;"
         dashed
       />
       <div class="status">
-        <div><span>预约时间：</span>{{ record.createTime }}</div>
+        <div><span>预约时间：</span>{{ displayRecord.createTime }}</div>
         <div>
           <span>审核状态：</span>
           <span
-            v-if="record.status === 1"
+            v-if="displayRecord.status === 1"
             style="padding: 0; margin: 0; color: green"
           >
             已通过
           </span>
           <span
-            v-else-if="record.status === 0"
+            v-else-if="displayRecord.status === 0"
             style="padding: 0; margin: 0; color: orange"
             >待审核</span
           >
@@ -59,48 +59,48 @@
     <div v-else style="padding: 30px 40px">
       <div class="data">
         <van-icon name="notes-o" :size="icon_size" :color="icon_color" />
-        <span>参观日期：</span>{{ record.date }}
+        <span>参观日期：</span>{{ displayRecord.date }}
       </div>
       <div class="data">
         <van-icon name="underway-o" :size="icon_size" :color="icon_color" />
-        <span>参观时间：</span>{{ record.time }}
+        <span>参观时间：</span>{{ displayRecord.time }}
       </div>
       <div class="data">
         <van-icon name="contact" :size="icon_size" :color="icon_color" />
-        <span>预约人：</span>{{ record.appointeeName }}
+        <span>预约人：</span>{{ displayRecord.appointeeName }}
       </div>
       <div class="data">
         <van-icon name="hotel-o" :size="icon_size" :color="icon_color" />
-        <span>联系方式：</span>{{ record.phone }}
+        <span>联系方式：</span>{{ displayRecord.phone }}
       </div>
       <div class="data">
         <van-icon name="phone-circle-o" :size="icon_size" :color="icon_color" />
-        <span>来访人信息：</span>{{ record.visitorInfo }}
+        <span>来访人信息：</span>{{ displayRecord.visitorInfo }}
       </div>
       <div class="data">
         <van-icon name="friends-o" :size="icon_size" :color="icon_color" />
-        <span>预约人数：</span>{{ record.visitorNumber }}
+        <span>预约人数：</span>{{ displayRecord.visitorNumber }}
       </div>
       <div class="data">
         <van-icon name="edit" :size="icon_size" :color="icon_color" />
-        <span>备注：</span>{{ record.comment }}
+        <span>反馈：</span>{{ displayRecord.comment }}
       </div>
       <van-divider
         custom-style="color: #1989fa; border-color: #1989fa;"
         dashed
       />
       <div class="status">
-        <div><span>预约时间：</span>{{ record.createTime }}</div>
+        <div><span>预约时间：</span>{{ displayRecord.createTime }}</div>
         <div>
           <span>审核状态：</span>
           <span
-            v-if="record.status === 1"
+            v-if="displayRecord.status === 1"
             style="padding: 0; margin: 0; color: green"
           >
             已通过
           </span>
           <span
-            v-else-if="record.status === 0"
+            v-else-if="displayRecord.status === 0"
             style="padding: 0; margin: 0; color: orange"
             >待审核</span
           >
@@ -108,8 +108,12 @@
         </div>
       </div>
       <div v-if="edit" class="btn_wrapper">
-        <button class="auditBtn" @click="handleReview(2, record)">拒绝</button>
-        <button class="auditBtn" @click="handleReview(1, record)">确认</button>
+        <button class="auditBtn" @click="handleReview(2, displayRecord)">
+          拒绝
+        </button>
+        <button class="auditBtn" @click="handleReview(1, displayRecord)">
+          确认
+        </button>
       </div>
     </div>
   </div>
@@ -130,6 +134,23 @@ export default {
     reason: "",
     refuse_record: {},
   }),
+  computed: {
+    displayRecord() {
+      return this.record ? { ...this.record } : null;
+    },
+  },
+  watch: {
+    record: {
+      deep: true,
+      handler(newVal, oldVal, xxx) {
+        console.log("Record has changed", newVal);
+        console.log(oldVal);
+        console.log(xxx);
+        console.log("====================");
+        // 可以在这里执行任何需要的操作，例如重新初始化数据或更新内部状态
+      },
+    },
+  },
   created() {
     console.log(this.record);
   },
@@ -152,25 +173,6 @@ export default {
   color: #fff;
   border: none;
   cursor: pointer;
-}
-
-::v-deep .van-dialog {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: auto;
-}
-
-.search {
-  display: flex;
-}
-
-.search_input {
-  width: 85%;
-}
-
-.search_button {
-  width: 20%;
 }
 
 page {

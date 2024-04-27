@@ -29,7 +29,7 @@
       sticky
     >
       <van-tab title="未审核">
-        <div v-for="(record, index) in unreviewed_dataList" :key="index">
+        <div v-for="record in unreviewed_dataList" :key="record.id">
           <AppointmentInfoCard
             :record="record"
             :icon_size="icon_size"
@@ -54,7 +54,7 @@
             搜索
           </van-button>
         </van-cell-group>
-        <div v-for="(record, index) in reviewed_dataList" :key="index">
+        <div v-for="record in reviewed_dataList" :key="record.id">
           <AppointmentInfoCard
             :record="record"
             :icon_size="icon_size"
@@ -80,6 +80,7 @@
 import myAxios from "../../plugins/myAxios";
 import { Toast } from "vant";
 import AppointmentInfoCard from "../../components/AppointmentInfoCard/index.vue";
+import { encrypt, decrypt } from "../../libs/encrypt";
 
 export default {
   components: {
@@ -105,23 +106,50 @@ export default {
   },
   created() {
     this.getData();
+    this.checkAuth();
   },
   methods: {
-    async onSubmit() {
-      try {
-        const res = await myAxios.post(
-          `/appointment/auth?password=${this.password}`
+    async checkAuth() {
+      const storedData = localStorage.getItem("authToken");
+      const expiration = localStorage.getItem("expiration");
+      const currentTime = new Date().getTime();
+
+      // 检查token是否存在且未过期
+      if (storedData && expiration && currentTime < parseInt(expiration)) {
+        const { iv, encrypted } = JSON.parse(storedData);
+        const decryptedToken = await decrypt(
+          new Uint8Array(iv),
+          new Uint8Array(encrypted)
         );
-        if (res?.code === 0) {
+
+        if (decryptedToken === "authenticated") {
           this.isSuper = true;
-          Toast.success("认证成功");
-        } else {
-          Toast.fail("认证失败");
         }
-      } catch (error) {
-        Toast.fail(`认证失败: ${error}`);
       }
     },
+    async onSubmit() {
+      const res = await myAxios.post(
+        `/appointment/auth?password=${this.password}`
+      );
+      if (res?.code === 0) {
+        this.isSuper = true;
+        Toast.success("认证成功");
+
+        // 加密并存储token
+        const { iv, encrypted } = await encrypt("authenticated");
+        localStorage.setItem(
+          "authToken",
+          JSON.stringify({
+            iv: Array.from(iv),
+            encrypted: Array.from(new Uint8Array(encrypted)),
+          })
+        );
+        localStorage.setItem("expiration", new Date().getTime() + 86400000); // 设置1天后过期
+      } else {
+        Toast.fail("认证失败");
+      }
+    },
+
     async getData() {
       try {
         const response = await myAxios.get("/appointment/get");
@@ -155,6 +183,7 @@ export default {
           b.createTime.localeCompare(a.createTime)
         );
       }
+      console.log(self.reviewed_dataList);
     },
     async handleReview(status, record) {
       if (status === 2) {
@@ -169,7 +198,7 @@ export default {
           if (response?.code === 0) {
             Toast.success("操作成功");
           }
-          await this.getData();
+          window.location.reload();
         } catch (error) {
           Toast.fail(`操作失败: ${error}`);
         }
