@@ -27,7 +27,7 @@ public interface AppointmentService extends IService<Appointment> {
      *
      * @return
      */
-    List<String> getAvailableTimeList();
+    List<String> getAvailableTimeList(String date);
 
     /**
      * 获取预约详情

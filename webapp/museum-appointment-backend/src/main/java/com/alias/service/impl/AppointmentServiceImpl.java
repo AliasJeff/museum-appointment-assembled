@@ -52,13 +52,13 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
     }
 
     @Override
-    public List<String> getAvailableTimeList() {
+    public List<String> getAvailableTimeList(String date) {
         QueryWrapper<Appointment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("date", date);
         queryWrapper.select("time").groupBy("time");
         queryWrapper.eq("status", PENDING);
 
         List<Appointment> appointments = appointmentMapper.selectList(queryWrapper);
-        appointments.forEach(System.out::println);
         List<String> timeList = new ArrayList<>(TIME_LIST);
         appointments.forEach(appointment -> timeList.remove(appointment.getTime()));
         return timeList;

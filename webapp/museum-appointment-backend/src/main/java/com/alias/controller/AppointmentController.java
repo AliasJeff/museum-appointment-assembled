@@ -70,8 +70,8 @@ public class AppointmentController {
     }
 
     @GetMapping("/get/available")
-    public BaseResponse<List<String>> getAvailableTimeList(HttpServletRequest request) {
-        List<String> timeList = appointmentService.getAvailableTimeList();
+    public BaseResponse<List<String>> getAvailableTimeList(String date, HttpServletRequest request) {
+        List<String> timeList = appointmentService.getAvailableTimeList(date);
         return ResultUtils.success(timeList);
     }
 
@@ -110,8 +110,6 @@ public class AppointmentController {
         if (StringUtils.isBlank(password)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        log.info(password);
-        log.info(PASSWORD);
         if (!password.equals(PASSWORD)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }

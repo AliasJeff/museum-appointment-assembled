@@ -11,11 +11,7 @@
       <van-cell-group inset class="van-group_margin">
         <div class="image">
           <div class="shadow">
-            <view
-              class="time center-text"
-              v-for="item in museumTitles"
-              :key="item"
-            >
+            <view class="center-text" v-for="item in museumTitles" :key="item">
               <p>{{ item }}</p>
             </view>
           </div>
@@ -196,37 +192,39 @@
       v-model:show="showNotice"
       @close="showNotice = false"
       title="非洲博物馆参观须知"
-      class="dialog"
     >
-      <template v-for="policy in userPolicy" :key="policy">
-        <p>{{ policy }}</p>
-      </template>
+      <div class="dialog">
+        <template v-for="policy in userPolicy" :key="policy">
+          <p>{{ policy }}</p>
+        </template>
+      </div>
     </van-dialog>
     <van-dialog
       v-model:show="showUserPolicy"
       @close="showUserPolicy = false"
       title="用户协议"
-      class="dialog"
     >
-      <template v-for="policy in userPolicy" :key="policy">
-        <p>{{ policy }}</p>
-      </template>
+      <div class="dialog">
+        <template v-for="policy in userPolicy" :key="policy">
+          <p>{{ policy }}</p>
+        </template>
+      </div>
     </van-dialog>
     <van-dialog
       v-model:show="showPrivacyPolicy"
       @close="showPrivacyPolicy = false"
       title="隐私政策"
-      class="dialog"
     >
-      <template v-for="policy in privacyPolicy" :key="policy">
-        <p>{{ policy }}</p>
-      </template>
+      <div class="dialog">
+        <template v-for="policy in privacyPolicy" :key="policy">
+          <p>{{ policy }}</p>
+        </template>
+      </div>
     </van-dialog>
   </div>
 </template>
 <script>
 import myAxios from "../../plugins/myAxios";
-import "./index.css";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
 
@@ -327,6 +325,8 @@ export default {
     },
     confirmVisitDate(e) {
       this.visitDate = this.formatDate(e);
+      this.visitTime = null;
+      this.refreshAvailableTime();
       this.showCalendar = false;
     },
     formatter(type, value) {
@@ -344,7 +344,11 @@ export default {
     },
     async refreshAvailableTime() {
       try {
-        const { data } = await myAxios.get("/appointment/get/available");
+        const { data } = await myAxios.get("/appointment/get/available", {
+          params: {
+            date: this.visitDate,
+          },
+        });
         this.timeColumns = data;
       } catch (error) {
         Toast.fail(`获取可选时间失败：${error.message}`);
@@ -455,6 +459,7 @@ page {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   border-radius: 12px;
   color: white;
+  height: 300px;
 }
 
 .shadow {
@@ -537,6 +542,6 @@ button {
 }
 
 .dialog {
-  padding: 14px;
+  padding: 14px !important;
 }
 </style>

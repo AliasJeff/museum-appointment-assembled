@@ -130,6 +130,9 @@ export default {
     reason: "",
     refuse_record: {},
   }),
+  created() {
+    console.log(this.record);
+  },
 };
 </script>
 
