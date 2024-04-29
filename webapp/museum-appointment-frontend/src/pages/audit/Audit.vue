@@ -198,7 +198,7 @@ export default {
           if (response?.code === 0) {
             Toast.success("操作成功");
           }
-          window.location.reload();
+          await this.getData();
         } catch (error) {
           Toast.fail(`操作失败: ${error}`);
         }
