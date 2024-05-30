@@ -5,6 +5,7 @@ import com.alias.model.dto.appointment.AppointmentQueryRequest;
 import com.alias.model.dto.appointment.AppointmentUpdateRequest;
 import com.alias.model.entity.Appointment;
 import com.alias.service.AppointmentService;
+import com.alias.utils.SmsUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
+import static com.alias.constant.AppointmentConstant.AUDIT_APPROVED;
+import static com.alias.constant.SmsConstant.*;
 import static com.alias.model.enums.AppointmentEnum.PENDING;
 
 /**
@@ -30,6 +34,9 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
 
     @Resource
     private AppointmentMapper appointmentMapper;
+
+    @Resource
+    private SmsUtils smsUtils;
 
     @Override
     public List<Appointment> getAppointmentList(AppointmentQueryRequest appointmentQueryRequest) {
@@ -115,7 +122,23 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
         Optional.ofNullable(time).ifPresent(appointment::setTime);
         Optional.ofNullable(status).ifPresent(appointment::setStatus);
         Optional.ofNullable(comment).ifPresent(appointment::setComment);
+        try {
+            Appointment currentAppointment = this.getById(id);
+            smsNotify(status, currentAppointment.getAppointeeName(), currentAppointment.getPhone(), currentAppointment.getDate(), currentAppointment.getTime(), comment);
+        } catch (Exception e) {
+            log.error("短信通知失败", e);
+        }
         return this.updateById(appointment);
+    }
+
+    private String smsNotify(Integer status, String appointeeName, String phone, String date, String time, String reason) throws Exception {
+        String templateCode = status == AUDIT_APPROVED ? SUCCESS_TEMPLATE_CODE : FAIL_TEMPLATE_CODE;
+        String templateParam = smsUtils.generateTemplateParam(templateCode, appointeeName, date, time, reason);
+        String code = smsUtils.sendSms(phone, SIGN_NAME, templateCode, templateParam);
+        if (!Objects.equals(code, "OK")) {
+            throw new Exception("Sms sent failed");
+        }
+        return code;
     }
 
 

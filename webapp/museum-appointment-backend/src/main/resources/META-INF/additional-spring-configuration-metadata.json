@@ -19,6 +19,16 @@
       "name": "cos.client.bucket",
       "type": "java.lang.String",
       "description": "Description for cos.client.bucket."
+    },
+    {
+      "name": "sms.api.accessKey",
+      "type": "java.lang.String",
+      "description": "Description for sms.api.accessKey."
+    },
+    {
+      "name": "sms.api.secretKey",
+      "type": "java.lang.String",
+      "description": "Description for sms.api.secretKey."
     }
   ]
 }
